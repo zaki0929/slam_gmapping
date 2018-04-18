@@ -677,7 +677,7 @@ SlamGMapping::updateMap(const sensor_msgs::LaserScan& scan)
           gsp_->getParticles()[gsp_->getBestParticleIndex()];
   std_msgs::Float64 entropy;
   entropy.data = computePoseEntropy();
-  if(entropy.data > 0.0)
+  //if(entropy.data > 0.0)
     entropy_publisher_.publish(entropy);
 
   if(!got_map_) {
