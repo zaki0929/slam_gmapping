@@ -256,6 +256,7 @@ void SlamGMapping::init()
 void SlamGMapping::startLiveSlam()
 {
   entropy_publisher_ = private_nh_.advertise<std_msgs::Float64>("entropy", 1, true);
+  w_sum_publisher_ = private_nh_.advertise<std_msgs::Float64>("w_sum", 1, true);
   sst_ = node_.advertise<nav_msgs::OccupancyGrid>("map", 1, true);
   sstm_ = node_.advertise<nav_msgs::MapMetaData>("map_metadata", 1, true);
   ss_ = node_.advertiseService("dynamic_map", &SlamGMapping::mapCallback, this);
@@ -648,6 +649,11 @@ SlamGMapping::computePoseEntropy()
   {
     weight_total += it->weight;
   }
+
+  std_msgs::Float64 w_sum;
+  w_sum.data = weight_total;
+  w_sum_publisher_.publish(w_sum);
+
   double entropy = 0.0;
   for(std::vector<GMapping::GridSlamProcessor::Particle>::const_iterator it = gsp_->getParticles().begin();
       it != gsp_->getParticles().end();
