@@ -653,7 +653,7 @@ SlamGMapping::computePoseEntropy()
   }
 
   std_msgs::Float64 w_sum;
-  w_sum.data = weight_total;
+  w_sum.data = -weight_total;
   w_sum_publisher_.publish(w_sum);
 
   std_msgs::Float64MultiArray weight_norm;
